@@ -1,25 +1,98 @@
-/* BoroWood SmartBuild - app.js - Node 001 Statesboro GA */
-const MATS={'Birch 1/4"':{color:'#9E6028',rate:0.171,cnc:1.0,grade:'A/B Sanded'},'Birch 1/2"':{color:'#9E6028',rate:0.265,cnc:1.1,grade:'A/B Sanded'},'Birch 3/4"':{color:'#9E6028',rate:0.342,cnc:1.25,grade:'A/B Sanded'},'MDF 1/2"':{color:'#6A625A',rate:0.148,cnc:0.85,grade:'Smooth B/S'},'Baltic Birch 3/4"':{color:'#B8904A',rate:0.418,cnc:1.2,grade:'B/BB 13-ply'}};
-const CATS={furniture:{label:'Furniture',icon:'desk',subs:['Desk','Shelf','Table','Bench','Console'],products:[{id:'desk',name:'Floating Desk',desc:'Wall-mounted. Zero floor footprint.',sqin:1152,cnc:22,unit:'each',vis:'desk',mats:[{id:'Birch 3/4"',rec:true,why:'Holds desktop load, takes any finish'},{id:'Baltic Birch 3/4"'},{id:'Birch 1/2"'}]},{id:'shelf',name:'Floating Shelf',desc:'Invisible mount. Any length.',sqin:288,cnc:10,unit:'each',vis:'shelf',mats:[{id:'Birch 1/2"',rec:true,why:'Right weight for wall shelving'},{id:'Birch 3/4"'}]},{id:'bench',name:'Entryway Bench',desc:'Solid. Open or storage underneath.',sqin:864,cnc:18,unit:'each',vis:'bench',mats:[{id:'Birch 3/4"',rec:true,why:'Strong enough to sit on'},{id:'Baltic Birch 3/4"'}]},{id:'table',name:'Dining Table',desc:'Solid top. Daily use.',sqin:2592,cnc:45,unit:'each',vis:'table',mats:[{id:'Birch 3/4"',rec:true,why:'Full furniture thickness'},{id:'Baltic Birch 3/4"'}]},{id:'console',name:'TV Console',desc:'Low-profile. Cable management built in.',sqin:1440,cnc:32,unit:'each',vis:'console',mats:[{id:'Birch 3/4"',rec:true,why:'Stiff, spans wide'},{id:'Birch 1/2"'}]}]},storage:{label:'Storage',icon:'cabinet',subs:['Cabinet','Mudroom','Organizer'],products:[{id:'cabinet',name:'Wall Cabinet',desc:'Shaker or flat panel. Any room.',sqin:720,cnc:38,unit:'each',vis:'cabinet',mats:[{id:'Birch 1/2"',rec:true,why:'Cabinet weight, routes clean'},{id:'Birch 3/4"'},{id:'MDF 1/2"'}]},{id:'mudroom',name:'Mudroom Lockers',desc:'Hooks, shelf, bench. Built to your wall.',sqin:2880,cnc:65,unit:'each',vis:'mudroom',mats:[{id:'Birch 3/4"',rec:true,why:'Durable, paintable, takes daily use'}]}]},wall:{label:'Wall Art & Signs',icon:'sign',subs:['Sign','Gallery','Pegboard'],products:[{id:'sign',name:'Custom Wood Sign',desc:'Any text. Routed or painted.',sqin:192,cnc:15,unit:'each',vis:'sign',mats:[{id:'MDF 1/2"',rec:true,why:'Smoothest face for painted lettering'},{id:'Birch 1/4"',why:'Natural grain look'},{id:'Birch 3/4"'}]},{id:'gallery',name:'Gallery Wall Panels',desc:'Matching set. Any layout.',sqin:480,cnc:18,unit:'set',vis:'gallery',mats:[{id:'Birch 1/4"',rec:true,why:'Lightweight, flat, takes stain beautifully'},{id:'MDF 1/2"'}]},{id:'pegboard',name:'Pegboard System',desc:'Modular grid. Shop or kitchen.',sqin:1296,cnc:25,unit:'each',vis:'peg',mats:[{id:'Birch 1/2"',rec:true,why:'Stiff enough to hold tools'},{id:'MDF 1/2"'}]}]},diy:{label:'DIY & Craft',icon:'circle',subs:['Rounds','Hangers','Blanks','Wholesale'],products:[{id:'circles',name:'Wood Rounds',desc:'Circles, ovals, door hangers. The BoroWood original.',sqin:113,cnc:4,unit:'piece',vis:'circle',mats:[{id:'Birch 1/4"',rec:true,why:'Light, flat, our #1 seller'},{id:'MDF 1/2"',why:'Ultra-smooth for painting'},{id:'Birch 1/2"',why:'Heavier rounds'}]},{id:'hangers',name:'Door Hangers',desc:'Ready to decorate.',sqin:120,cnc:5,unit:'piece',vis:'hanger',mats:[{id:'Birch 1/4"',rec:true,why:'Perfect weight, clean cuts'},{id:'MDF 1/2"'}]},{id:'blanks',name:'Custom Blanks',desc:'Your dimensions. Any shape.',sqin:144,cnc:4,unit:'piece',vis:'rect',mats:[{id:'Birch 1/4"',rec:true,why:'Most versatile for craft'},{id:'MDF 1/2"'},{id:'Birch 1/2"'}]},{id:'bundle',name:'Wholesale Bundle',desc:'Bulk pricing. Crafter packs.',sqin:1130,cnc:38,unit:'bundle',vis:'bundle',mats:[{id:'Birch 1/4"',rec:true,why:'Volume pricing, consistent quality'}]}]}};
-const S={cat:'furniture',prod:null,matId:null,qty:1,finMult:1,finName:'Raw sanded',aiHistory:[],aiDesign:null};
-const CNC_RATE=20;
-function calcPrice(matId,sqin,cutMin,finMult,qty){finMult=finMult||1;qty=qty||1;const m=MATS[matId];if(!m)return null;const mat=sqin*m.rate;const cnc=(cutMin/60)*CNC_RATE*m.cnc;const cost=(mat+cnc+1.5)*finMult*qty;const price=cost/0.8;return{mat:(mat*finMult*qty).toFixed(2),cnc:(cnc*finMult*qty).toFixed(2),mgn:(price-cost).toFixed(2),total:price.toFixed(2)};}
-function shapeSVG(type,color,w,h){w=w||80;h=h||60;const c=color||'#735236';if(type==='circle'){const r=Math.min(w,h)/2-1;return '<svg width="'+w+'" height="'+h+'" viewBox="0 0 '+w+' '+h+'"><circle cx="'+(w/2)+'" cy="'+(h/2)+'" r="'+r+'" fill="'+c+'" opacity=".85"/></svg>';}if(type==='shelf')return '<svg width="'+w+'" height="'+(h*.4)+'" viewBox="0 0 '+w+' '+(h*.4)+'"><rect x="1" y="1" width="'+(w-2)+'" height="'+(h*.4-2)+'" rx="2" fill="'+c+'" opacity=".85"/></svg>';if(type==='desk')return '<svg width="'+w+'" height="'+h+'" viewBox="0 0 '+w+' '+h+'"><rect x="1" y="'+(h*.35)+'" width="'+(w-2)+'" height="'+(h*.2)+'" rx="2" fill="'+c+'" opacity=".85"/><rect x="6" y="'+(h*.55)+'" width="5" height="'+(h*.42)+'" rx="1" fill="'+c+'" opacity=".68"/><rect x="'+(w-11)+'" y="'+(h*.55)+'" width="5" height="'+(h*.42)+'" rx="1" fill="'+c+'" opacity=".68"/></svg>';if(type==='bench')return '<svg width="'+w+'" height="'+h+'" viewBox="0 0 '+w+' '+h+'"><rect x="1" y="'+(h*.35)+'" width="'+(w-2)+'" height="'+(h*.16)+'" rx="2" fill="'+c+'" opacity=".85"/><rect x="6" y="'+(h*.51)+'" width="5" height="'+(h*.46)+'" rx="1" fill="'+c+'" opacity=".68"/><rect x="'+(w-11)+'" y="'+(h*.51)+'" width="5" height="'+(h*.46)+'" rx="1" fill="'+c+'" opacity=".68"/></svg>';if(type==='sign')return '<svg width="'+w+'" height="'+(h*.6)+'" viewBox="0 0 '+w+' '+(h*.6)+'"><rect x="1" y="1" width="'+(w-2)+'" height="'+(h*.6-2)+'" rx="2" fill="'+c+'" opacity=".85"/><rect x="10" y="'+(h*.16)+'" width="'+(w*.52)+'" height="5" rx="1" fill="rgba(0,0,0,.28)"/></svg>';if(type==='hanger')return '<svg width="'+(w*.7)+'" height="'+h+'" viewBox="0 0 '+(w*.7)+' '+h+'"><path d="M'+(w*.35)+' 2 C'+(w*.18)+' '+(h*.25)+' 2 '+(h*.45)+' 2 '+(h*.65)+' C2 '+(h*.88)+' '+(w*.14)+' '+(h-1)+' '+(w*.35)+' '+(h-1)+' C'+(w*.56)+' '+(h-1)+' '+(w*.7-2)+' '+(h*.88)+' '+(w*.7-2)+' '+(h*.65)+' C'+(w*.7-2)+' '+(h*.45)+' '+(w*.52)+' '+(h*.25)+' '+(w*.35)+' 2Z" fill="'+c+'" opacity=".85"/></svg>';if(type==='bundle')return '<svg width="'+w+'" height="'+h+'" viewBox="0 0 '+w+' '+h+'"><circle cx="'+(w*.22)+'" cy="'+(h*.55)+'" r="'+(h*.36)+'" fill="'+c+'" opacity=".55"/><circle cx="'+(w*.5)+'" cy="'+(h*.45)+'" r="'+(h*.36)+'" fill="'+c+'" opacity=".72"/><circle cx="'+(w*.78)+'" cy="'+(h*.55)+'" r="'+(h*.36)+'" fill="'+c+'" opacity=".9"/></svg>';return '<svg width="'+w+'" height="'+h+'" viewBox="0 0 '+w+' '+h+'"><rect x="1" y="1" width="'+(w-2)+'" height="'+(h-2)+'" rx="2" fill="'+c+'" opacity=".85"/></svg>';}
-function catIconSVG(type){const c='#735236';if(type==='desk')return '<svg width="58" height="58" viewBox="0 0 58 58" fill="none"><rect x="4" y="20" width="50" height="9" rx="2" fill="'+c+'" opacity=".8"/><rect x="7" y="29" width="5" height="22" rx="1" fill="'+c+'" opacity=".6"/><rect x="46" y="29" width="5" height="22" rx="1" fill="'+c+'" opacity=".6"/></svg>';if(type==='cabinet')return '<svg width="58" height="58" viewBox="0 0 58 58" fill="none"><rect x="7" y="7" width="44" height="44" rx="2" fill="'+c+'" opacity=".8"/><line x1="29" y1="7" x2="29" y2="51" stroke="rgba(0,0,0,.2)" stroke-width=".8"/><circle cx="23" cy="29" r="2.5" fill="rgba(0,0,0,.28)"/><circle cx="35" cy="29" r="2.5" fill="rgba(0,0,0,.28)"/></svg>';if(type==='sign')return '<svg width="58" height="58" viewBox="0 0 58 58" fill="none"><rect x="5" y="18" width="48" height="22" rx="2" fill="'+c+'" opacity=".8"/><rect x="12" y="25" width="22" height="4" rx="1" fill="rgba(0,0,0,.3)"/></svg>';return '<svg width="58" height="58" viewBox="0 0 58 58" fill="none"><circle cx="29" cy="29" r="22" fill="'+c+'" opacity=".8"/><circle cx="29" cy="29" r="13" fill="none" stroke="rgba(0,0,0,.12)" stroke-width=".8" stroke-dasharray="2 2"/></svg>';}
-function goApp(){show('s-idea');buildCatGrid();}
-function show(id){document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('on');});var el=document.getElementById(id);if(el)el.classList.add('on');}
-function switchMode(mode){document.querySelectorAll('.ntab').forEach(function(t){t.classList.remove('on');});if(mode==='ai'){document.querySelectorAll('.ntab').forEach(function(t,i){if(i===1)t.classList.add('on');});show('s-ai');}else{document.querySelectorAll('.ntab').forEach(function(t,i){if(i===0)t.classList.add('on');});show('s-idea');}}
-function goIdea(){show('s-idea');buildCatGrid();}
-function buildCatGrid(){var grid=document.getElementById('cat-grid');if(!grid)return;grid.innerHTML='';Object.entries(CATS).forEach(function(entry){var key=entry[0];var cat=entry[1];var d=document.createElement('div');d.style.cssText='background:rgba(115,82,54,0.05);border:0.5px solid rgba(115,82,54,0.16);border-radius:13px;padding:22px 14px;cursor:pointer;transition:all .2s;text-align:center;position:relative;overflow:hidden;';d.innerHTML='<div style="height:68px;display:flex;align-items:center;justify-content:center;margin-bottom:12px;">'+catIconSVG(cat.icon)+'</div><div style="font-size:14px;font-weight:700;color:#e5d3c1;margin-bottom:4px;">'+cat.label+'</div><div style="font-size:10px;color:#baa68b;">'+cat.products.slice(0,3).map(function(p){return p.name;}).join(', ')+'</div><div style="font-family:monospace;font-size:9px;color:#d75031;margin-top:8px;font-weight:600;">'+cat.products.length+' products</div>';d.onclick=function(){document.querySelectorAll('#cat-grid > div').forEach(function(c){c.style.borderColor='rgba(115,82,54,0.16)';c.style.background='rgba(115,82,54,0.05)';});d.style.borderColor='#d75031';d.style.background='rgba(215,80,49,0.08)';S.cat=key;buildProdGrid(key);};grid.appendChild(d);});buildProdGrid('furniture');}
-function buildProdGrid(cat){var grid=document.getElementById('prod-grid');if(!grid)return;grid.innerHTML='';CATS[cat].products.forEach(function(p){var m=MATS[p.mats[0].id]||MATS['Birch 1/4"'];var pr=calcPrice(p.mats[0].id,p.sqin,p.cnc,1,1);var card=document.createElement('div');card.style.cssText='background:rgba(115,82,54,0.05);border:0.5px solid rgba(115,82,54,0.16);border-radius:11px;cursor:pointer;transition:all .18s;overflow:hidden;position:relative;';card.innerHTML='<div style="width:100%;height:84px;background:rgba(22,14,7,0.6);display:flex;align-items:center;justify-content:center;">'+shapeSVG(p.vis,m.color,80,70)+'</div><div style="padding:10px 13px;"><div style="font-size:12px;font-weight:700;color:#e5d3c1;margin-bottom:2px;">'+p.name+'</div><div style="font-size:10px;color:#baa68b;line-height:1.4;margin-bottom:6px;">'+p.desc+'</div><div style="font-family:monospace;font-size:10px;color:#d75031;font-weight:600;">from $'+(pr?pr.total:'—')+' · '+p.unit+'</div></div>';card.onclick=function(){document.querySelectorAll('#prod-grid > div').forEach(function(c){c.style.borderColor='rgba(115,82,54,0.16)';});card.style.borderColor='#d75031';S.prod=p;var btn=document.getElementById('idea-cta');if(btn)btn.disabled=false;};grid.appendChild(d);});}
-function goAI(){switchMode('ai');}
-function qp(el){var inp=document.getElementById('inp');if(inp){inp.value=el.textContent;send();}}
-function hk(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send();}}
-function ar(el){el.style.height='auto';el.style.height=Math.min(el.scrollHeight,100)+'px';}
-function addMsg(role,text){var c=document.getElementById('msgs');if(!c)return;var d=document.createElement('div');d.className='msg'+(role==='user'?' u':'');d.innerHTML='<div class="av '+(role==='user'?'me':'ai')+'">'+(role==='user'?'You':'AI')+'</div><div class="bub '+(role==='user'?'me':'ai')+'">'+text.replace(/\n/g,'<br>')+'</div>';c.appendChild(d);c.scrollTop=c.scrollHeight;}
-function showTyping(){var c=document.getElementById('msgs');if(!c)return;var d=document.createElement('div');d.className='msg';d.id='tdiv';d.innerHTML='<div class="av ai">AI</div><div class="bub ai"><div style="display:flex;align-items:center;gap:4px;padding:4px 8px;"><div style="width:5px;height:5px;border-radius:50%;background:#735236;animation:lp .8s ease-in-out infinite;"></div><div style="width:5px;height:5px;border-radius:50%;background:#735236;animation:lp .8s ease-in-out .15s infinite;"></div><div style="width:5px;height:5px;border-radius:50%;background:#735236;animation:lp .8s ease-in-out .3s infinite;"></div></div></div>';c.appendChild(d);c.scrollTop=c.scrollHeight;}
-function hideTyping(){var t=document.getElementById('tdiv');if(t)t.remove();}
-var busy=false;
-var SYSTEM='You are SmartBuild AI for BoroWood CNC shop Statesboro GA. Design what customers want using ONLY: Birch 1/4" $0.171/sqin cnc 1.0, Birch 1/2" $0.265/sqin cnc 1.1, Birch 3/4" $0.342/sqin cnc 1.25, MDF 1/2" $0.148/sqin cnc 0.85, Baltic Birch 3/4" $0.418/sqin cnc 1.2. Price=(sqin*rate+mins/60*20*mult+1.5)/0.8. One craftsman sentence then <DESIGN>{"type":"desk|shelf|sign|circle|cabinet|bench|table|hanger|generic","name":"...","width":"48\"","depth_height":"24\" deep","thickness":"3/4\"","sqin":1152,"cut_minutes":22,"cut_time":"~22 min","material":"Birch 3/4\"","grade":"A/B Sanded","material_reason":"...","alternative_materials":["Baltic Birch 3/4\""],"build_notes":"...","material_cost":"19.58","cnc_cost":"12.32","margin":"7.98","price":"39.88"}</DESIGN>';
-async function send(){var inp=document.getElementById('inp');var txt=inp?inp.value.trim():'';if(!txt||busy)return;inp.value='';inp.style.height='auto';busy=true;var sbtn=document.getElementById('sbtn');if(sbtn)sbtn.disabled=true;addMsg('user',txt);S.aiHistory.push({role:'user',content:txt});showTyping();try{var res=await fetch('/api/design',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({history:S.aiHistory})});var data=await res.json();if(data.error)throw new Error(data.error);var full=(data.content||[]).map(function(b){return b.text||'';}).join('');var dm=full.match(/<DESIGN>([sS]*?)</DESIGN>/);var chat=full.replace(/<DESIGN>[sS]*?</DESIGN>/g,'').trim();hideTyping();if(chat)addMsg('ai',chat);S.aiHistory.push({role:'assistant',content:full});if(dm){try{var d=JSON.parse(dm[1].replace(/```json|```/g,'').trim());S.aiDesign=d;addMsg('ai','Design ready: '+d.name+' in '+d.material+'. Est. $'+d.price+'. Say "cut it" to send to CNC.');}catch(e){}}}catch(err){hideTyping();addMsg('ai','Connection error. Make sure the server is running with ANTHROPIC_API_KEY set.');}busy=false;if(sbtn)sbtn.disabled=false;}
-document.addEventListener('DOMContentLoaded',function(){buildCatGrid();});
+/* BoroWood SmartBuild - app.js - Node 001 - Fixed */
+var MATS = {"Birch 1/4\"": {color:"#9E6028",rate:0.171,cnc:1.0,grade:"A/B Sanded"}, "Birch 1/2\"": {color:"#9E6028",rate:0.265,cnc:1.1,grade:"A/B Sanded"}, "Birch 3/4\"": {color:"#9E6028",rate:0.342,cnc:1.25,grade:"A/B Sanded"}, "MDF 1/2\"": {color:"#6A625A",rate:0.148,cnc:0.85,grade:"Smooth B/S"}, "Baltic Birch 3/4\"": {color:"#B8904A",rate:0.418,cnc:1.2,grade:"B/BB 13-ply"}};
+var SYSTEM = "You are SmartBuild AI for BoroWood CNC shop Statesboro GA. Design what customers want using ONLY: Birch 1/4\" $0.171/sqin cnc 1.0, Birch 1/2\" $0.265/sqin cnc 1.1, Birch 3/4\" $0.342/sqin cnc 1.25, MDF 1/2\" $0.148/sqin cnc 0.85, Baltic Birch 3/4\" $0.418/sqin cnc 1.2. Price=(sqin*rate+mins/60*20*mult+1.5)/0.8. Reply with one craftsman sentence then <DESIGN>{type,name,width,depth_height,thickness,sqin,cut_minutes,cut_time,material,grade,material_reason,alternative_materials,build_notes,material_cost,cnc_cost,margin,price}</DESIGN>";
+var aiHistory = [];
+var busy = false;
+
+function goApp() { show("s-idea"); }
+function goIdea() { show("s-idea"); }
+function show(id) {
+  document.querySelectorAll(".screen").forEach(function(s) { s.classList.remove("on"); });
+  var el = document.getElementById(id);
+  if (el) el.classList.add("on");
+}
+function switchMode(mode) {
+  document.querySelectorAll(".ntab").forEach(function(t) { t.classList.remove("on"); });
+  if (mode === "ai") {
+    document.querySelectorAll(".ntab").forEach(function(t, i) { if (i === 1) t.classList.add("on"); });
+    show("s-ai");
+  } else {
+    document.querySelectorAll(".ntab").forEach(function(t, i) { if (i === 0) t.classList.add("on"); });
+    show("s-idea");
+  }
+}
+function qp(el) {
+  var inp = document.getElementById("inp");
+  if (inp) { inp.value = el.textContent; send(); }
+}
+function hk(e) {
+  if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); send(); }
+}
+function ar(el) {
+  el.style.height = "auto";
+  el.style.height = Math.min(el.scrollHeight, 100) + "px";
+}
+function addMsg(role, text) {
+  var c = document.getElementById("msgs");
+  if (!c) return;
+  var d = document.createElement("div");
+  d.className = "msg" + (role === "user" ? " u" : "");
+  d.innerHTML = "<div class=\"av " + (role === "user" ? "me" : "ai") + "\">" + (role === "user" ? "You" : "AI") + "</div><div class=\"bub " + (role === "user" ? "me" : "ai") + "\">" + text.replace(/\n/g, "<br>") + "</div>";
+  c.appendChild(d);
+  c.scrollTop = c.scrollHeight;
+}
+function showTyping() {
+  var c = document.getElementById("msgs");
+  if (!c) return;
+  var d = document.createElement("div");
+  d.className = "msg"; d.id = "tdiv";
+  d.innerHTML = "<div class=\"av ai\">AI</div><div class=\"bub ai\"><div style=\"display:flex;gap:4px;padding:4px;\"><div style=\"width:5px;height:5px;border-radius:50%;background:#735236;animation:lp .8s ease-in-out infinite;\"></div><div style=\"width:5px;height:5px;border-radius:50%;background:#735236;animation:lp .8s ease-in-out .15s infinite;\"></div><div style=\"width:5px;height:5px;border-radius:50%;background:#735236;animation:lp .8s ease-in-out .3s infinite;\"></div></div></div>";
+  c.appendChild(d);
+  c.scrollTop = c.scrollHeight;
+}
+function hideTyping() { var t = document.getElementById("tdiv"); if (t) t.remove(); }
+
+function send() {
+  var inp = document.getElementById("inp");
+  var txt = inp ? inp.value.trim() : "";
+  if (!txt || busy) return;
+  inp.value = ""; inp.style.height = "auto";
+  busy = true;
+  var sbtn = document.getElementById("sbtn");
+  if (sbtn) sbtn.disabled = true;
+  addMsg("user", txt);
+  aiHistory.push({role: "user", content: txt});
+  showTyping();
+  fetch("/api/design", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({history: aiHistory})
+  }).then(function(res) { return res.json(); }).then(function(data) {
+    if (data.error) throw new Error(data.error);
+    var full = (data.content || []).map(function(b) { return b.text || ""; }).join("");
+    var dm = full.match(/<DESIGN>([\s\S]*?)<\/DESIGN>/);
+    var chat = full.replace(/<DESIGN>[\s\S]*?<\/DESIGN>/g, "").trim();
+    hideTyping();
+    if (chat) addMsg("ai", chat);
+    aiHistory.push({role: "assistant", content: full});
+    if (dm) {
+      try {
+        var d = JSON.parse(dm[1].trim());
+        addMsg("ai", "Design ready: " + d.name + " in " + d.material + ". Price: $" + d.price + ". Tell me to cut it and we go.");
+      } catch(e) {}
+    }
+  }).catch(function(err) {
+    hideTyping();
+    addMsg("ai", "Connection error: " + err.message);
+  }).finally(function() {
+    busy = false;
+    if (sbtn) sbtn.disabled = false;
+  });
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+  var splash = document.getElementById("s-splash");
+  if (splash) splash.addEventListener("click", goApp);
+  var startBtn = document.querySelector(".splash-btn, .sbtn2");
+  if (startBtn) startBtn.addEventListener("click", function(e) { e.stopPropagation(); goApp(); });
+});
