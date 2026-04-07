@@ -1,1 +1,617 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/><title>SmartBuild - BoroWood - Building on a Budget</title><link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet"/><style>:root{--red:#d75031;--red2:#591812;--walnut:#735236;--tan:#baa68b;--cream:#e5d3c1;--green:#4a8c3c;--b:rgba(115,82,54,0.16);}*{box-sizing:border-box;margin:0;padding:0;}html,body{height:100%;background:#0a0604;}body{font-family:Montserrat,sans-serif;color:var(--cream);display:flex;flex-direction:column;min-height:100vh;}#app{max-width:1200px;margin:0 auto;width:100%;flex:1;display:flex;flex-direction:column;}.screen{display:none;flex-direction:column;flex:1;}.screen.on{display:flex;}#s-splash{align-items:center;justify-content:center;background:linear-gradient(155deg,#2a0e06,#160e07,#1a1008);min-height:100vh;cursor:pointer;}.si{text-align:center;padding:48px 28px;max-width:520px;}.logo{width:80px;height:80px;background:var(--red);border-radius:8px;margin:0 auto 24px;display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:700;font-style:italic;color:var(--cream);}.word{font-size:56px;font-weight:700;font-style:italic;color:var(--cream);margin-bottom:6px;letter-spacing:-1px;}.word span{color:var(--red);}.budget{font-size:11px;letter-spacing:3px;color:var(--red);font-weight:700;text-transform:uppercase;margin-bottom:20px;}.tag{font-size:14px;color:rgba(229,211,193,0.6);line-height:1.85;margin-bottom:36px;}.tag b{color:var(--cream);}.start{background:var(--red);color:#fff;border:none;border-radius:11px;padding:18px 48px;font-family:Montserrat,sans-serif;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;cursor:pointer;width:100%;max-width:360px;}.node{margin-top:20px;font-size:8px;letter-spacing:3px;color:rgba(186,166,139,0.2);text-transform:uppercase;}.hdr{display:flex;align-items:center;justify-content:space-between;padding:12px 24px;border-bottom:0.5px solid var(--b);background:rgba(22,14,7,0.97);flex-shrink:0;}.brand{display:flex;align-items:center;gap:10px;}.badge{width:32px;height:32px;background:var(--red);border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;font-style:italic;color:var(--cream);}.bname{font-size:15px;font-weight:700;font-style:italic;color:var(--walnut);}.bsub{font-size:7px;letter-spacing:2px;color:var(--red);text-transform:uppercase;margin-top:1px;font-weight:700;}.live{display:flex;align-items:center;gap:5px;font-size:8px;letter-spacing:2px;color:var(--green);font-weight:700;text-transform:uppercase;}.ldot{width:5px;height:5px;border-radius:50%;background:var(--green);animation:lp 2s ease-in-out infinite;}@keyframes lp{0%,100%{opacity:1;}50%{opacity:.2;}}.aw{flex:1;display:flex;flex-direction:column;}.intro{padding:20px 24px 14px;border-bottom:0.5px solid var(--b);}.atitle{font-size:22px;font-weight:700;font-style:italic;color:var(--cream);margin-bottom:4px;}.asub{font-size:12px;color:var(--tan);line-height:1.6;}.pills{display:flex;gap:6px;flex-wrap:wrap;padding:10px 24px;border-bottom:0.5px solid var(--b);}.pill{font-size:9px;font-weight:600;padding:6px 12px;border:0.5px solid var(--b);border-radius:20px;color:var(--tan);cursor:pointer;background:none;font-family:Montserrat,sans-serif;}.msgs{flex:1;overflow-y:auto;padding:16px 24px;display:flex;flex-direction:column;gap:12px;}.msg{display:flex;gap:10px;}.msg.u{flex-direction:row-reverse;}.av{width:28px;height:28px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;}.av.ai{background:rgba(215,80,49,.15);border:0.5px solid rgba(215,80,49,.22);color:var(--red);}.av.me{background:rgba(115,82,54,.15);border:0.5px solid var(--b);color:var(--walnut);}.bub{max-width:78%;border-radius:12px;padding:10px 14px;font-size:13px;line-height:1.65;}.bub.ai{background:rgba(115,82,54,.06);border:0.5px solid var(--b);color:var(--cream);}.bub.me{background:rgba(215,80,49,.1);border:0.5px solid rgba(215,80,49,.22);color:var(--cream);}.ir{padding:12px 24px;border-top:0.5px solid var(--b);display:flex;gap:8px;align-items:flex-end;flex-shrink:0;}.inp{flex:1;background:rgba(115,82,54,.07);border:0.5px solid var(--b);border-radius:12px;padding:11px 14px;font-family:Montserrat,sans-serif;font-size:13px;color:var(--cream);outline:none;resize:none;min-height:44px;max-height:120px;line-height:1.5;}.inp:focus{border-color:var(--walnut);}.inp::placeholder{color:rgba(186,166,139,.28);}.sbtn{width:44px;height:44px;background:var(--red);border:none;border-radius:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;}.sbtn:disabled{opacity:.3;cursor:not-allowed;}.card{background:rgba(115,82,54,.07);border:0.5px solid rgba(115,82,54,.35);border-radius:12px;overflow:hidden;margin-top:4px;}.card-drawing{background:#111;padding:16px;display:flex;align-items:center;justify-content:center;border-bottom:0.5px solid var(--b);}.card-body{padding:14px 16px;}.cmat{font-size:10px;color:var(--red);font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;}.cprice{font-size:32px;font-weight:700;font-style:italic;color:var(--cream);line-height:1;}.cname{font-size:12px;color:var(--tan);margin:6px 0 2px;font-weight:600;}.cinfo{font-size:10px;color:rgba(186,166,139,.6);margin-bottom:6px;}.cnotes{font-size:10px;color:rgba(186,166,139,.4);border-top:0.5px solid var(--b);padding-top:8px;margin-top:6px;}.cut{background:var(--red);color:#fff;border:none;border-radius:8px;padding:12px;font-family:Montserrat,sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;width:100%;margin-top:12px;}</style></head><body><div id="app"><div id="s-splash" class="screen on"><div class="si"><div class="logo">BW</div><div class="word">Boro<span>Wood</span></div><div class="budget">Building on a Budget</div><div class="tag">Bring your material.<br><b>We design it. We cut it. Pick it up in one hour.</b><br>Supporting Creative Crafters Since 2020.</div><button class="start" id="startBtn">START BUILDING</button><div class="node">SmartBuild - Node 001 - Statesboro GA</div></div></div><div id="s-ai" class="screen"><div class="hdr"><div class="brand"><div class="badge">BW</div><div><div class="bname">BoroWood</div><div class="bsub">Building on a Budget</div></div></div><div class="live"><div class="ldot"></div>AI Online</div></div><div class="aw"><div class="intro"><div class="atitle">Describe anything. We will cut it in one hour.</div><div class="asub">Tell me what you want to make. I will design it, pick the right material, and price it.</div></div><div class="pills"><button class="pill">A floating desk for my office</button><button class="pill">Wood rounds for my craft business</button><button class="pill">A custom sign</button><button class="pill">Garage shelving system</button><button class="pill">Mudroom bench with storage</button><button class="pill">Surprise me</button></div><div class="msgs" id="msgs"><div class="msg"><div class="av ai">AI</div><div class="bub ai">Hey! I am the SmartBuild AI. Tell me what you want to make. I will design it using BoroWood materials and give you a real price. What are you building today?</div></div></div><div class="ir"><textarea class="inp" id="inp" placeholder="Describe what you want to make..." rows="1"></textarea><button class="sbtn" id="sendBtn"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 14L14 8 2 2v5l9 1-9 1v5z" fill="white"/></svg></button></div></div></div></div><script>var hist=[],busy=false;function show(id){document.querySelectorAll(".screen").forEach(function(s){s.classList.remove("on");});document.getElementById(id).classList.add("on");}function addMsg(r,h){var c=document.getElementById("msgs");var d=document.createElement("div");d.className="msg"+(r==="u"?" u":"");d.innerHTML="<div class=\"av "+(r==="u"?"me":"ai")+"\">"+(r==="u"?"You":"AI")+"<\/div><div class=\"bub "+(r==="u"?"me":"ai")+"\">"+h+"<\/div>";c.appendChild(d);c.scrollTop=c.scrollHeight;}function typing(){var c=document.getElementById("msgs");var d=document.createElement("div");d.id="td";d.className="msg";d.innerHTML="<div class=\"av ai\">AI<\/div><div class=\"bub ai\"><em>Designing...<\/em><\/div>";c.appendChild(d);c.scrollTop=c.scrollHeight;}function rmT(){var t=document.getElementById("td");if(t)t.remove();}function fixJson(s){return s.replace(/([{,]\s*)([a-zA-Z_][a-zA-Z0-9_]*)\s*:/g,"$1\"$2\":");}function parseDesign(s){try{return JSON.parse(s);}catch(e){try{return JSON.parse(fixJson(s));}catch(e2){return null;}}}function drawProduct(dj){var t=(dj.type||dj.name||"").toLowerCase();var W=220,H=150;var dim="fill:#baa68b;font-size:9px;font-family:Montserrat,sans-serif";var svg="<svg viewBox=\"0 0 "+W+" "+H+"\" xmlns=\"http://www.w3.org/2000/svg\" width=\""+W+"\" height=\""+H+"\">";if(t.includes("round")||t.includes("circle")||t.includes("disc")){var r=55,cx=W/2,cy=H/2;svg+="<circle cx=\""+cx+"\" cy=\""+cy+"\" r=\""+r+"\" fill=\"#c8a96e\" stroke=\"#8B5E3C\" stroke-width=\"1.5\"/>";svg+="<circle cx=\""+cx+"\" cy=\""+cy+"\" r=\""+Math.round(r*0.85)+"\" fill=\"none\" stroke=\"#a07840\" stroke-width=\"0.5\" stroke-dasharray=\"3,3\"/>";svg+="<line x1=\""+Math.round(cx-r)+"\" y1=\""+cy+"\" x2=\""+Math.round(cx+r)+"\" y2=\""+cy+"\" stroke=\"#8B5E3C\" stroke-width=\"0.5\"/>";svg+="<line x1=\""+cx+"\" y1=\""+Math.round(cy-r)+"\" x2=\""+cx+"\" y2=\""+Math.round(cy+r)+"\" stroke=\"#8B5E3C\" stroke-width=\"0.5\"/>";svg+="<text x=\""+cx+"\" y=\""+Math.round(H-8)+"\" text-anchor=\"middle\" "+dim+">"+(dj.width||"12")+" dia<\/text>";}else if(t.includes("sign")){svg+="<rect x=\"20\" y=\"45\" width=\"180\" height=\"60\" rx=\"4\" fill=\"#c8a96e\" stroke=\"#8B5E3C\" stroke-width=\"1.5\"/>";svg+="<circle cx=\"32\" cy=\"57\" r=\"4\" fill=\"none\" stroke=\"#8B5E3C\" stroke-width=\"1\"/>";svg+="<circle cx=\"188\" cy=\"57\" r=\"4\" fill=\"none\" stroke=\"#8B5E3C\" stroke-width=\"1\"/>";svg+="<text x=\"110\" y=\"79\" text-anchor=\"middle\" fill=\"#5a3a1a\" font-size=\"13\" font-family=\"Montserrat,sans-serif\" font-weight=\"700\">BOROWOOD<\/text>";svg+="<text x=\"110\" y=\"136\" text-anchor=\"middle\" "+dim+">"+(dj.width||"")+"<\/text>";}else if(t.includes("shelf")||t.includes("shelv")){svg+="<rect x=\"18\" y=\"18\" width=\"8\" height=\"120\" rx=\"2\" fill=\"#a07840\" stroke=\"#8B5E3C\" stroke-width=\"1\"/>";svg+="<rect x=\"194\" y=\"18\" width=\"8\" height=\"120\" rx=\"2\" fill=\"#a07840\" stroke=\"#8B5E3C\" stroke-width=\"1\"/>";for(var i=0;i<3;i++){svg+="<rect x=\"18\" y=\""+(20+i*38)+"\" width=\"184\" height=\"12\" rx=\"2\" fill=\"#c8a96e\" stroke=\"#8B5E3C\" stroke-width=\"1\"/>";}}else if(t.includes("desk")){svg+="<rect x=\"10\" y=\"35\" width=\"200\" height=\"18\" rx=\"3\" fill=\"#c8a96e\" stroke=\"#8B5E3C\" stroke-width=\"1.5\"/>";svg+="<rect x=\"20\" y=\"53\" width=\"12\" height=\"75\" rx=\"2\" fill=\"#a07840\" stroke=\"#8B5E3C\" stroke-width=\"1\"/>";svg+="<rect x=\"188\" y=\"53\" width=\"12\" height=\"75\" rx=\"2\" fill=\"#a07840\" stroke=\"#8B5E3C\" stroke-width=\"1\"/>";svg+="<text x=\"110\" y=\"142\" text-anchor=\"middle\" "+dim+">"+(dj.width||"48")+" wide<\/text>";}else if(t.includes("bench")){svg+="<rect x=\"10\" y=\"45\" width=\"200\" height=\"16\" rx=\"3\" fill=\"#c8a96e\" stroke=\"#8B5E3C\" stroke-width=\"1.5\"/>";svg+="<rect x=\"15\" y=\"61\" width=\"75\" height=\"55\" rx=\"2\" fill=\"rgba(192,150,80,0.25)\" stroke=\"#8B5E3C\" stroke-width=\"1\"/>";svg+="<rect x=\"130\" y=\"61\" width=\"75\" height=\"55\" rx=\"2\" fill=\"rgba(192,150,80,0.25)\" stroke=\"#8B5E3C\" stroke-width=\"1\"/>";svg+="<rect x=\"20\" y=\"116\" width=\"12\" height=\"22\" rx=\"1\" fill=\"#a07840\" stroke=\"#8B5E3C\" stroke-width=\"1\"/>";svg+="<rect x=\"188\" y=\"116\" width=\"12\" height=\"22\" rx=\"1\" fill=\"#a07840\" stroke=\"#8B5E3C\" stroke-width=\"1\"/>";}else{svg+="<rect x=\"25\" y=\"25\" width=\"170\" height=\"100\" rx=\"4\" fill=\"#c8a96e\" stroke=\"#8B5E3C\" stroke-width=\"1.5\"/>";svg+="<line x1=\"25\" y1=\"25\" x2=\"195\" y2=\"125\" stroke=\"#a07840\" stroke-width=\"0.5\"/>";svg+="<line x1=\"195\" y1=\"25\" x2=\"25\" y2=\"125\" stroke=\"#a07840\" stroke-width=\"0.5\"/>";svg+="<text x=\"110\" y=\"142\" text-anchor=\"middle\" "+dim+">"+(dj.width||"")+"<\/text>";}svg+="<\/svg>";return svg;}function cncDone(b){b.textContent="Order Placed - Ready in 1 Hour";}function makeCard(dj){var price=dj.price||"?";var mat=dj.material||"Birch";var grade=dj.grade||"";var name=dj.name||dj.type||"Custom Order";var w=dj.width||"";var ct=dj.cut_time||"";var notes=dj.build_notes||dj.notes||"";var drw=drawProduct(dj);return "<div class=\"card\"><div class=\"card-drawing\">"+drw+"<\/div><div class=\"card-body\"><div class=\"cmat\">"+mat+(grade?" - "+grade:"")+"<\/div><div class=\"cprice\">$"+price+"<\/div><div class=\"cname\">"+name+"<\/div><div class=\"cinfo\">"+(w?w+" wide":"")+(ct?" &middot; Cut time: "+ct:"")+"<\/div>"+(notes?"<div class=\"cnotes\">"+notes+"<\/div>":"")+"<button class=\"cut\" onclick=\"cncDone(this)\">Send to CNC &#x2192;<\/button><\/div><\/div>";}function send(){var inp=document.getElementById("inp");var txt=inp.value.trim();if(!txt||busy)return;inp.value="";inp.style.height="auto";busy=true;document.getElementById("sendBtn").disabled=true;addMsg("u",txt);hist.push({role:"user",content:txt});typing();fetch("/api/design",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({history:hist})}).then(function(r){return r.json();}).then(function(d){if(d.error)throw new Error(d.error);var full="";if(d.content)d.content.forEach(function(b){if(b.text)full+=b.text;});var ds=full.indexOf("<DESIGN>"),de=full.indexOf("<\/DESIGN>");var chat=ds>-1?full.substring(0,ds).trim():full.trim();var dj=null;if(ds>-1&&de>-1){dj=parseDesign(full.substring(ds+8,de).trim());}rmT();if(chat)addMsg("ai",chat);hist.push({role:"assistant",content:full});if(dj){addMsg("ai",makeCard(dj));}}).catch(function(e){rmT();addMsg("ai","Error: "+e.message);}).finally(function(){busy=false;document.getElementById("sendBtn").disabled=false;});}document.getElementById("startBtn").onclick=function(e){e.stopPropagation();show("s-ai");};document.getElementById("s-splash").onclick=function(){show("s-ai");};document.getElementById("sendBtn").onclick=send;document.getElementById("inp").onkeydown=function(e){if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();send();}};document.getElementById("inp").oninput=function(){this.style.height="auto";this.style.height=Math.min(this.scrollHeight,120)+"px";};document.querySelectorAll(".pill").forEach(function(p){p.onclick=function(){document.getElementById("inp").value=this.textContent;send();};});</script></body></html>
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/><title>SmartBuild - BoroWood - Building on a Budget</title><link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet"/><style>
+:root{--red:#d75031;--red2:#591812;--walnut:#735236;--tan:#baa68b;--cream:#e5d3c1;--green:#4a8c3c;--b:rgba(115,82,54,0.18);--card:#1a1108;}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;background:#0d0804;}
+body{font-family:Montserrat,sans-serif;color:var(--cream);}
+.screen{display:none;flex-direction:column;min-height:100vh;}.screen.on{display:flex;}
+
+/* SPLASH */
+#s-splash{align-items:center;justify-content:center;background:linear-gradient(155deg,#2a0e06,#120a04,#1a1008);min-height:100vh;}
+.splash-inner{text-align:center;padding:48px 24px;max-width:480px;}
+.bw-badge{width:72px;height:72px;background:var(--red);border-radius:10px;margin:0 auto 20px;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:800;font-style:italic;color:var(--cream);}
+.splash-word{font-size:52px;font-weight:800;font-style:italic;color:var(--cream);letter-spacing:-1px;margin-bottom:4px;}.splash-word span{color:var(--red);}
+.splash-tagline{font-size:10px;letter-spacing:4px;color:var(--red);font-weight:700;text-transform:uppercase;margin-bottom:18px;}
+.splash-desc{font-size:13px;color:rgba(229,211,193,0.55);line-height:1.8;margin-bottom:32px;}
+.splash-desc b{color:var(--cream);}
+.btn-start{background:var(--red);color:#fff;border:none;border-radius:10px;padding:16px 0;font-family:Montserrat,sans-serif;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;cursor:pointer;width:100%;max-width:340px;}
+.splash-node{margin-top:18px;font-size:8px;letter-spacing:3px;color:rgba(186,166,139,0.18);text-transform:uppercase;}
+
+/* HEADER */
+.hdr{display:flex;align-items:center;justify-content:space-between;padding:12px 20px;border-bottom:0.5px solid var(--b);background:rgba(13,8,4,0.97);flex-shrink:0;position:sticky;top:0;z-index:10;}
+.hdr-brand{display:flex;align-items:center;gap:9px;}
+.hdr-badge{width:30px;height:30px;background:var(--red);border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;font-style:italic;color:var(--cream);}
+.hdr-name{font-size:14px;font-weight:800;font-style:italic;color:var(--walnut);}
+.hdr-sub{font-size:7px;letter-spacing:2px;color:var(--red);font-weight:700;text-transform:uppercase;margin-top:1px;}
+.hdr-status{display:flex;align-items:center;gap:5px;font-size:8px;letter-spacing:2px;color:var(--green);font-weight:700;text-transform:uppercase;}
+.hdr-dot{width:5px;height:5px;border-radius:50%;background:var(--green);animation:pulse 2s ease-in-out infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.2;}}
+
+/* LIBRARY */
+#s-library{background:#0d0804;}
+.lib-hero{padding:24px 20px 16px;border-bottom:0.5px solid var(--b);}
+.lib-hero h1{font-size:26px;font-weight:800;font-style:italic;color:var(--cream);margin-bottom:4px;}
+.lib-hero p{font-size:12px;color:var(--tan);line-height:1.5;}
+.lib-cats{display:flex;gap:6px;flex-wrap:wrap;padding:12px 20px;border-bottom:0.5px solid var(--b);}
+.cat-btn{font-size:9px;font-weight:700;padding:6px 14px;border-radius:20px;cursor:pointer;font-family:Montserrat,sans-serif;border:0.5px solid var(--b);color:var(--tan);background:none;transition:all .15s;}
+.cat-btn.active,.cat-btn:hover{background:var(--red);color:#fff;border-color:var(--red);}
+.lib-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;padding:16px 20px 32px;}
+.prod-card{background:var(--card);border:0.5px solid var(--b);border-radius:12px;overflow:hidden;cursor:pointer;transition:border-color .15s,transform .1s;}
+.prod-card:hover{border-color:var(--walnut);transform:translateY(-1px);}
+.prod-drawing{background:#0a0604;padding:20px;display:flex;align-items:center;justify-content:center;border-bottom:0.5px solid var(--b);height:140px;}
+.prod-info{padding:12px 14px;}
+.prod-cat{font-size:8px;letter-spacing:2px;color:var(--red);font-weight:700;text-transform:uppercase;margin-bottom:4px;}
+.prod-name{font-size:13px;font-weight:700;color:var(--cream);margin-bottom:3px;}
+.prod-mat{font-size:10px;color:var(--tan);}
+.prod-price{font-size:18px;font-weight:800;font-style:italic;color:var(--cream);margin-top:6px;}
+.prod-cta{margin-top:10px;background:var(--red);color:#fff;border:none;border-radius:7px;padding:9px;font-family:Montserrat,sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;width:100%;}
+.lib-custom{margin:0 20px 32px;border:0.5px dashed rgba(215,80,49,.3);border-radius:12px;padding:20px;text-align:center;cursor:pointer;transition:border-color .15s;}
+.lib-custom:hover{border-color:var(--red);}
+.lib-custom h3{font-size:14px;font-weight:700;color:var(--cream);margin-bottom:4px;}
+.lib-custom p{font-size:11px;color:var(--tan);}
+
+/* STEP 1 — CUSTOMIZE */
+#s-customize{background:#0d0804;}
+.step-hdr{padding:16px 20px;border-bottom:0.5px solid var(--b);display:flex;align-items:center;gap:12px;}
+.back-btn{background:none;border:0.5px solid var(--b);color:var(--tan);padding:7px 14px;border-radius:7px;font-family:Montserrat,sans-serif;font-size:10px;font-weight:600;cursor:pointer;}
+.step-title{font-size:16px;font-weight:700;color:var(--cream);}
+.step-sub{font-size:10px;color:var(--tan);}
+.cust-body{display:flex;gap:0;flex:1;}
+.cust-preview{flex:1;background:#0a0604;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px;border-right:0.5px solid var(--b);min-height:400px;}
+.cust-preview svg{max-width:280px;max-height:280px;}
+.cust-dims{margin-top:12px;font-size:10px;color:var(--tan);text-align:center;line-height:1.6;}
+.cust-form{width:320px;padding:20px;display:flex;flex-direction:column;gap:14px;overflow-y:auto;}
+.field{display:flex;flex-direction:column;gap:5px;}
+.field label{font-size:9px;letter-spacing:2px;color:var(--tan);font-weight:700;text-transform:uppercase;}
+.field input,.field select{background:rgba(115,82,54,.08);border:0.5px solid var(--b);border-radius:8px;padding:10px 12px;font-family:Montserrat,sans-serif;font-size:13px;color:var(--cream);outline:none;}
+.field input:focus,.field select:focus{border-color:var(--walnut);}
+.field select option{background:#1a1108;}
+.price-preview{background:rgba(215,80,49,.08);border:0.5px solid rgba(215,80,49,.2);border-radius:10px;padding:14px;}
+.price-label{font-size:9px;letter-spacing:2px;color:var(--red);font-weight:700;text-transform:uppercase;margin-bottom:4px;}
+.price-amount{font-size:32px;font-weight:800;font-style:italic;color:var(--cream);}
+.price-detail{font-size:10px;color:var(--tan);margin-top:2px;}
+.btn-next{background:var(--red);color:#fff;border:none;border-radius:9px;padding:14px;font-family:Montserrat,sans-serif;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;width:100%;}
+
+/* STEP 2 — CONFIRM */
+#s-confirm{background:#0d0804;}
+.confirm-body{max-width:560px;margin:0 auto;padding:24px 20px;}
+.confirm-drawing{background:#0a0604;border:0.5px solid var(--b);border-radius:12px;padding:24px;display:flex;align-items:center;justify-content:center;margin-bottom:16px;min-height:200px;}
+.confirm-spec{background:var(--card);border:0.5px solid var(--b);border-radius:12px;padding:16px;margin-bottom:16px;}
+.spec-row{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:0.5px solid var(--b);}
+.spec-row:last-child{border-bottom:none;}
+.spec-key{font-size:10px;color:var(--tan);font-weight:600;}
+.spec-val{font-size:11px;color:var(--cream);font-weight:700;}
+.confirm-price{background:rgba(215,80,49,.08);border:0.5px solid rgba(215,80,49,.25);border-radius:12px;padding:16px;margin-bottom:20px;display:flex;justify-content:space-between;align-items:center;}
+.confirm-price-label{font-size:10px;letter-spacing:2px;color:var(--red);font-weight:700;text-transform:uppercase;}
+.confirm-price-amount{font-size:36px;font-weight:800;font-style:italic;color:var(--cream);}
+.btn-cnc{background:var(--red);color:#fff;border:none;border-radius:10px;padding:16px;font-family:Montserrat,sans-serif;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;width:100%;margin-bottom:8px;}
+.btn-edit{background:none;border:0.5px solid var(--b);color:var(--tan);padding:12px;border-radius:10px;font-family:Montserrat,sans-serif;font-size:10px;font-weight:600;cursor:pointer;width:100%;}
+.confirm-success{background:rgba(74,140,60,.1);border:0.5px solid rgba(74,140,60,.3);border-radius:12px;padding:20px;text-align:center;display:none;}
+.confirm-success.show{display:block;}
+.success-icon{font-size:32px;margin-bottom:8px;}
+.success-title{font-size:16px;font-weight:700;color:var(--green);margin-bottom:4px;}
+.success-sub{font-size:12px;color:var(--tan);}
+.order-id{font-size:10px;color:rgba(186,166,139,.4);margin-top:8px;letter-spacing:2px;}
+
+/* AI CUSTOM */
+#s-ai{background:#0d0804;}
+.ai-wrap{flex:1;display:flex;flex-direction:column;}
+.ai-intro{padding:16px 20px 12px;border-bottom:0.5px solid var(--b);}
+.ai-intro h2{font-size:20px;font-weight:800;font-style:italic;color:var(--cream);margin-bottom:3px;}
+.ai-intro p{font-size:11px;color:var(--tan);}
+.msgs{flex:1;overflow-y:auto;padding:14px 20px;display:flex;flex-direction:column;gap:10px;}
+.msg{display:flex;gap:9px;}.msg.u{flex-direction:row-reverse;}
+.av{width:26px;height:26px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:700;}
+.av.ai{background:rgba(215,80,49,.12);border:0.5px solid rgba(215,80,49,.2);color:var(--red);}
+.av.me{background:rgba(115,82,54,.12);border:0.5px solid var(--b);color:var(--walnut);}
+.bub{max-width:80%;border-radius:10px;padding:9px 13px;font-size:12px;line-height:1.6;}
+.bub.ai{background:rgba(115,82,54,.07);border:0.5px solid var(--b);color:var(--cream);}
+.bub.me{background:rgba(215,80,49,.09);border:0.5px solid rgba(215,80,49,.2);color:var(--cream);}
+.ir{padding:10px 20px;border-top:0.5px solid var(--b);display:flex;gap:7px;align-items:flex-end;flex-shrink:0;}
+.inp{flex:1;background:rgba(115,82,54,.07);border:0.5px solid var(--b);border-radius:10px;padding:10px 13px;font-family:Montserrat,sans-serif;font-size:12px;color:var(--cream);outline:none;resize:none;min-height:40px;max-height:100px;line-height:1.5;}
+.inp::placeholder{color:rgba(186,166,139,.25);}
+.inp:focus{border-color:var(--walnut);}
+.sbtn{width:40px;height:40px;background:var(--red);border:none;border-radius:9px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.sbtn:disabled{opacity:.3;}
+</style></head><body>
+
+<!-- SPLASH -->
+<div id="s-splash" class="screen on">
+  <div class="splash-inner">
+    <div class="bw-badge">BW</div>
+    <div class="splash-word">Boro<span>Wood</span></div>
+    <div class="splash-tagline">Building on a Budget</div>
+    <div class="splash-desc">Bring your material.<br><b>We design it. We cut it. Pick it up in one hour.</b><br>Supporting Creative Crafters Since 2020.</div>
+    <button class="btn-start" id="splashBtn">BROWSE THE LIBRARY</button>
+    <div class="splash-node">SmartBuild - Node 001 - Statesboro GA</div>
+  </div>
+</div>
+
+<!-- LIBRARY -->
+<div id="s-library" class="screen">
+  <div class="hdr">
+    <div class="hdr-brand">
+      <div class="hdr-badge">BW</div>
+      <div><div class="hdr-name">BoroWood</div><div class="hdr-sub">Building on a Budget</div></div>
+    </div>
+    <div class="hdr-status"><div class="hdr-dot"></div>Node 001 Online</div>
+  </div>
+  <div class="lib-hero">
+    <h1>Product Library</h1>
+    <p>Pick a product, set your dimensions, and we cut it in one hour. Browse below or describe something custom.</p>
+  </div>
+  <div class="lib-cats" id="cats">
+    <button class="cat-btn active" data-cat="all">All</button>
+    <button class="cat-btn" data-cat="rounds">Rounds</button>
+    <button class="cat-btn" data-cat="signs">Signs</button>
+    <button class="cat-btn" data-cat="shelving">Shelving</button>
+    <button class="cat-btn" data-cat="furniture">Furniture</button>
+  </div>
+  <div class="lib-grid" id="libGrid"></div>
+  <div class="lib-custom" id="customBtn">
+    <h3>+ Something Custom</h3>
+    <p>Not finding what you need? Describe it and the AI will design it from scratch.</p>
+  </div>
+</div>
+
+<!-- CUSTOMIZE -->
+<div id="s-customize" class="screen">
+  <div class="hdr">
+    <div class="hdr-brand">
+      <div class="hdr-badge">BW</div>
+      <div><div class="hdr-name">BoroWood</div><div class="hdr-sub">Building on a Budget</div></div>
+    </div>
+    <div class="hdr-status"><div class="hdr-dot"></div>Node 001 Online</div>
+  </div>
+  <div class="step-hdr">
+    <button class="back-btn" onclick="show('s-library')">Back</button>
+    <div><div class="step-title" id="custTitle">Wood Rounds</div><div class="step-sub">Step 1 of 2 - Set your dimensions</div></div>
+  </div>
+  <div class="cust-body">
+    <div class="cust-preview">
+      <div id="custSvg"></div>
+      <div class="cust-dims" id="custDims"></div>
+    </div>
+    <div class="cust-form" id="custForm"></div>
+  </div>
+</div>
+
+<!-- CONFIRM -->
+<div id="s-confirm" class="screen">
+  <div class="hdr">
+    <div class="hdr-brand">
+      <div class="hdr-badge">BW</div>
+      <div><div class="hdr-name">BoroWood</div><div class="hdr-sub">Building on a Budget</div></div>
+    </div>
+    <div class="hdr-status"><div class="hdr-dot"></div>Node 001 Online</div>
+  </div>
+  <div class="step-hdr">
+    <button class="back-btn" onclick="show('s-customize')">Edit</button>
+    <div><div class="step-title">Confirm Order</div><div class="step-sub">Step 2 of 2 - Review and send to CNC</div></div>
+  </div>
+  <div class="confirm-body">
+    <div class="confirm-drawing" id="confirmSvg"></div>
+    <div class="confirm-spec" id="confirmSpec"></div>
+    <div class="confirm-price">
+      <div><div class="confirm-price-label">Total Price</div><div class="confirm-price-amount" id="confirmPrice">$0.00</div></div>
+      <div style="text-align:right"><div style="font-size:9px;color:var(--tan);">Cut Time</div><div style="font-size:16px;font-weight:700;color:var(--cream);" id="confirmTime"></div></div>
+    </div>
+    <button class="btn-cnc" id="cncBtn">Send to CNC Machine</button>
+    <button class="btn-edit" onclick="show('s-customize')">Make Changes</button>
+    <div class="confirm-success" id="successBox">
+      <div class="success-icon">🪵</div>
+      <div class="success-title">Order Placed!</div>
+      <div class="success-sub">Your order is being cut right now. Ready for pickup in 1 hour.</div>
+      <div class="order-id" id="orderId"></div>
+    </div>
+  </div>
+</div>
+
+<!-- AI CUSTOM -->
+<div id="s-ai" class="screen">
+  <div class="hdr">
+    <div class="hdr-brand">
+      <div class="hdr-badge">BW</div>
+      <div><div class="hdr-name">BoroWood</div><div class="hdr-sub">Building on a Budget</div></div>
+    </div>
+    <div class="hdr-status"><div class="hdr-dot"></div>AI Online</div>
+  </div>
+  <div class="ai-wrap">
+    <div class="ai-intro">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+        <button class="back-btn" onclick="show('s-library')">Back</button>
+        <h2>Custom Design</h2>
+      </div>
+      <p>Describe what you want. I will ask clarifying questions, design it, and price it out.</p>
+    </div>
+    <div class="msgs" id="msgs">
+      <div class="msg"><div class="av ai">AI</div><div class="bub ai">Hey! Tell me what you want to build. I will ask a few questions to get the spec right, then give you a real price and cut time. What are you making?</div></div>
+    </div>
+    <div class="ir">
+      <textarea class="inp" id="inp" placeholder="Describe what you want to make..." rows="1"></textarea>
+      <button class="sbtn" id="sendBtn"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M2 14L14 8 2 2v5l9 1-9 1v5z" fill="white"/></svg></button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ─── MATERIALS ───────────────────────────────────────────────────
+var MATS = {
+  'Birch 1/4"': {rate:0.0171,cnc:1.0,grade:'A/B Sanded',stack:2},
+  'Birch 1/2"': {rate:0.0265,cnc:1.1,grade:'A/B Sanded',stack:1},
+  'Birch 3/4"': {rate:0.0342,cnc:1.25,grade:'A/B Sanded',stack:1},
+  'MDF 1/2"':   {rate:0.0148,cnc:0.85,grade:'Smooth',stack:1},
+  'Baltic Birch 3/4"': {rate:0.0418,cnc:1.2,grade:'B/BB 13-ply',stack:1}
+};
+
+function calcPrice(matKey, sqin, cutMins) {
+  var m = MATS[matKey]; if (!m) return {price:'0.00',cutTime:'?'};
+  var mc = sqin * m.rate;
+  var cc = (cutMins/60) * 2 * m.cnc;
+  var cost = mc + cc + 0.15;
+  var price = cost / 0.8;
+  return {price: price.toFixed(2), mc: mc.toFixed(2), cc: cc.toFixed(2)};
+}
+
+function fmtTime(mins) {
+  if (mins < 1) return 'Under 1 min';
+  if (mins < 60) return Math.ceil(mins) + ' min';
+  var h = Math.floor(mins/60), m = Math.round(mins%60);
+  return h + 'h ' + (m>0?m+'m':'');
+}
+
+// ─── SVG DRAWERS ─────────────────────────────────────────────────
+function svgRound(dia, qty) {
+  var r = 90, cx = 120, cy = 110;
+  var label = dia + '"';
+  var s = '<svg viewBox="0 0 240 220" xmlns="http://www.w3.org/2000/svg">';
+  // Wood grain lines
+  s += '<circle cx="'+cx+'" cy="'+cy+'" r="'+r+'" fill="#c8a96e" stroke="#7a4e28" stroke-width="2"/>';
+  for (var i=1;i<6;i++) { var gr=r*(i/6);
+    s += '<circle cx="'+cx+'" cy="'+cy+'" r="'+gr+'" fill="none" stroke="#b8965a" stroke-width="0.6" opacity="0.5"/>'; }
+  // Center mark
+  s += '<line x1="'+cx+'" y1="'+(cy-r)+'" x2="'+cx+'" y2="'+(cy+r)+'" stroke="#7a4e28" stroke-width="0.8" stroke-dasharray="4,4"/>';
+  s += '<line x1="'+(cx-r)+'" y1="'+cy+'" x2="'+(cx+r)+'" y2="'+cy+'" stroke="#7a4e28" stroke-width="0.8" stroke-dasharray="4,4"/>';
+  // Dim line
+  s += '<line x1="'+cx+'" y1="'+(cy-r-6)+'" x2="'+cx+'" y2="'+(cy+r+6)+'" stroke="#baa68b" stroke-width="0.5"/>';
+  s += '<line x1="'+(cx-8)+'" y1="'+(cy-r-6)+'" x2="'+(cx+8)+'" y2="'+(cy-r-6)+'" stroke="#baa68b" stroke-width="0.5"/>';
+  s += '<line x1="'+(cx-8)+'" y1="'+(cy+r+6)+'" x2="'+(cx+8)+'" y2="'+(cy+r+6)+'" stroke="#baa68b" stroke-width="0.5"/>';
+  s += '<text x="'+(cx+r+12)+'" y="'+(cy+4)+'" fill="#baa68b" font-size="11" font-family="Montserrat,sans-serif">'+label+'</text>';
+  if (qty>1) s += '<text x="'+cx+'" y="215" text-anchor="middle" fill="#baa68b" font-size="10" font-family="Montserrat,sans-serif">Qty: '+qty+'</text>';
+  s += '</svg>';
+  return s;
+}
+
+function svgSign(w, h) {
+  var pw=180, ph=Math.max(50, Math.round(180*(h/w))), px=30, py=Math.max(20,(180-ph)/2);
+  if (ph>140){ph=140;py=20;}
+  var s = '<svg viewBox="0 0 240 180" xmlns="http://www.w3.org/2000/svg">';
+  // Board
+  s += '<rect x="'+px+'" y="'+py+'" width="'+pw+'" height="'+ph+'" rx="4" fill="#c8a96e" stroke="#7a4e28" stroke-width="1.5"/>';
+  // Wood grain
+  for(var i=1;i<5;i++){var gy=py+ph*(i/5);
+    s+='<line x1="'+px+'" y1="'+gy+'" x2="'+(px+pw)+'" y2="'+gy+'" stroke="#b8965a" stroke-width="0.4" opacity="0.5"/>';}
+  // Mounting holes
+  s+='<circle cx="'+(px+14)+'" cy="'+(py+14)+'" r="4" fill="#0a0604" stroke="#7a4e28" stroke-width="1"/>';
+  s+='<circle cx="'+(px+pw-14)+'" cy="'+(py+14)+'" r="4" fill="#0a0604" stroke="#7a4e28" stroke-width="1"/>';
+  // Center text
+  var ty = py+ph/2+5;
+  s+='<text x="120" y="'+ty+'" text-anchor="middle" fill="#5a3520" font-size="11" font-family="Montserrat,sans-serif" font-weight="700">BOROWOOD</text>';
+  // Dim labels
+  s+='<text x="120" y="'+(py+ph+18)+'" text-anchor="middle" fill="#baa68b" font-size="10" font-family="Montserrat,sans-serif">'+w+'" wide x '+h+'" tall</text>';
+  s+='</svg>';
+  return s;
+}
+
+function svgShelf(w, d, shelves) {
+  var sw=180, sd=20, gap=36, sx=30, sy=10;
+  var totalH = shelves*sd + (shelves-1)*gap;
+  var scale = Math.min(1, 140/totalH);
+  sd=Math.round(sd*scale); gap=Math.round(gap*scale);
+  var s = '<svg viewBox="0 0 240 180" xmlns="http://www.w3.org/2000/svg">';
+  // Side panels
+  s+='<rect x="'+sx+'" y="'+sy+'" width="10" height="'+(totalH*scale+sd)+'" rx="2" fill="#a07840" stroke="#7a4e28" stroke-width="1"/>';
+  s+='<rect x="'+(sx+sw-10)+'" y="'+sy+'" width="10" height="'+(totalH*scale+sd)+'" rx="2" fill="#a07840" stroke="#7a4e28" stroke-width="1"/>';
+  // Shelves
+  for(var i=0;i<shelves;i++){
+    var sy2=sy+i*(sd+gap);
+    s+='<rect x="'+sx+'" y="'+sy2+'" width="'+sw+'" height="'+sd+'" rx="2" fill="#c8a96e" stroke="#7a4e28" stroke-width="1"/>';
+    // grain
+    for(var j=1;j<4;j++){var gy=sy2+sd*(j/4);
+      s+='<line x1="'+(sx+10)+'" y1="'+gy+'" x2="'+(sx+sw-10)+'" y2="'+gy+'" stroke="#b8965a" stroke-width="0.4" opacity="0.5"/>';}
+  }
+  s+='<text x="120" y="170" text-anchor="middle" fill="#baa68b" font-size="10" font-family="Montserrat,sans-serif">'+w+'" wide x '+d+'" deep - '+shelves+' shelves</text>';
+  s+='</svg>';
+  return s;
+}
+
+function svgDesk(w, d) {
+  var tw=190, th=14, tx=25, ty=35;
+  var s = '<svg viewBox="0 0 240 180" xmlns="http://www.w3.org/2000/svg">';
+  // Tabletop
+  s+='<rect x="'+tx+'" y="'+ty+'" width="'+tw+'" height="'+th+'" rx="3" fill="#c8a96e" stroke="#7a4e28" stroke-width="1.5"/>';
+  for(var i=1;i<5;i++){var gx2=tx+tw*(i/5);
+    s+='<line x1="'+gx2+'" y1="'+ty+'" x2="'+gx2+'" y2="'+(ty+th)+'" stroke="#b8965a" stroke-width="0.5" opacity="0.4"/>';}
+  // Legs
+  s+='<rect x="'+(tx+10)+'" y="'+(ty+th)+'" width="12" height="80" rx="2" fill="#a07840" stroke="#7a4e28" stroke-width="1"/>';
+  s+='<rect x="'+(tx+tw-22)+'" y="'+(ty+th)+'" width="12" height="80" rx="2" fill="#a07840" stroke="#7a4e28" stroke-width="1"/>';
+  // Dim line across top
+  s+='<line x1="'+tx+'" y1="'+(ty-10)+'" x2="'+(tx+tw)+'" y2="'+(ty-10)+'" stroke="#baa68b" stroke-width="0.7"/>';
+  s+='<line x1="'+tx+'" y1="'+(ty-14)+'" x2="'+tx+'" y2="'+(ty-6)+'" stroke="#baa68b" stroke-width="0.7"/>';
+  s+='<line x1="'+(tx+tw)+'" y1="'+(ty-14)+'" x2="'+(tx+tw)+'" y2="'+(ty-6)+'" stroke="#baa68b" stroke-width="0.7"/>';
+  s+='<text x="120" y="'+(ty-14)+'" text-anchor="middle" fill="#baa68b" font-size="10" font-family="Montserrat,sans-serif">'+w+'" wide x '+d+'" deep</text>';
+  s+='</svg>';
+  return s;
+}
+
+function svgBench(w, h) {
+  var s = '<svg viewBox="0 0 240 180" xmlns="http://www.w3.org/2000/svg">';
+  // Seat
+  s+='<rect x="20" y="50" width="200" height="16" rx="3" fill="#c8a96e" stroke="#7a4e28" stroke-width="1.5"/>';
+  for(var i=1;i<6;i++){var gx=20+200*(i/6);
+    s+='<line x1="'+gx+'" y1="50" x2="'+gx+'" y2="66" stroke="#b8965a" stroke-width="0.5" opacity="0.4"/>';}
+  // Storage box
+  s+='<rect x="20" y="66" width="200" height="70" rx="3" fill="none" stroke="#7a4e28" stroke-width="1"/>';
+  s+='<line x1="20" y1="101" x2="220" y2="101" stroke="#7a4e28" stroke-width="0.5" stroke-dasharray="4,4"/>';
+  // Legs
+  s+='<rect x="25" y="136" width="14" height="28" rx="2" fill="#a07840" stroke="#7a4e28" stroke-width="1"/>';
+  s+='<rect x="201" y="136" width="14" height="28" rx="2" fill="#a07840" stroke="#7a4e28" stroke-width="1"/>';
+  s+='<text x="120" y="175" text-anchor="middle" fill="#baa68b" font-size="10" font-family="Montserrat,sans-serif">'+w+'" wide x '+h+'" tall - with storage</text>';
+  s+='</svg>';
+  return s;
+}
+
+function svgRect(w, h, label) {
+  var pw=180, ph=Math.max(60,Math.round(180*(h/w)));
+  if(ph>130)ph=130;
+  var px=30, py=(160-ph)/2;
+  var s='<svg viewBox="0 0 240 160" xmlns="http://www.w3.org/2000/svg">';
+  s+='<rect x="'+px+'" y="'+py+'" width="'+pw+'" height="'+ph+'" rx="3" fill="#c8a96e" stroke="#7a4e28" stroke-width="1.5"/>';
+  for(var i=1;i<5;i++){var gy=py+ph*(i/5);
+    s+='<line x1="'+px+'" y1="'+gy+'" x2="'+(px+pw)+'" y2="'+gy+'" stroke="#b8965a" stroke-width="0.5" opacity="0.4"/>';}
+  s+='<text x="120" y="'+(py+ph+18)+'" text-anchor="middle" fill="#baa68b" font-size="10" font-family="Montserrat,sans-serif">'+label+'</text>';
+  s+='</svg>';
+  return s;
+}
+
+// ─── PRODUCT LIBRARY ─────────────────────────────────────────────
+var LIBRARY = [
+  {id:'round-sm', cat:'rounds', name:'Small Wood Round', desc:'6" diameter circles - coasters, ornaments, small crafts',
+   mat:'Birch 1/4"', fields:[
+     {key:'dia',label:'Diameter (inches)',type:'number',default:6,min:3,max:24},
+     {key:'qty',label:'Quantity',type:'number',default:25,min:1,max:500},
+     {key:'mat',label:'Material',type:'select',options:['Birch 1/4"','Birch 1/2"'],default:'Birch 1/4"'}
+   ],
+   price: function(v) {
+     var m=MATS[v.mat]; var sqin=Math.PI*Math.pow(v.dia/2,2)*v.qty;
+     var passes=Math.ceil(v.qty/m.stack); var path=Math.PI*v.dia*1.2*passes;
+     var mins=path/90; return Object.assign(calcPrice(v.mat,sqin,mins),{mins:mins,sqin:sqin});
+   },
+   svg: function(v){return svgRound(v.dia||6, v.qty||25);}
+  },
+  {id:'round-lg', cat:'rounds', name:'Large Wood Round', desc:'12" - 24" circles - charcuterie boards, table tops, displays',
+   mat:'Birch 3/4"', fields:[
+     {key:'dia',label:'Diameter (inches)',type:'number',default:12,min:8,max:36},
+     {key:'qty',label:'Quantity',type:'number',default:10,min:1,max:200},
+     {key:'mat',label:'Material',type:'select',options:['Birch 1/2"','Birch 3/4"','Baltic Birch 3/4"'],default:'Birch 3/4"'}
+   ],
+   price: function(v){
+     var m=MATS[v.mat]; var sqin=Math.PI*Math.pow(v.dia/2,2)*v.qty;
+     var passes=Math.ceil(v.qty/m.stack); var path=Math.PI*v.dia*1.2*passes;
+     var mins=path/90; return Object.assign(calcPrice(v.mat,sqin,mins),{mins:mins,sqin:sqin});
+   },
+   svg: function(v){return svgRound(v.dia||12, v.qty||10);}
+  },
+  {id:'sign-rect', cat:'signs', name:'Rectangular Sign', desc:'Custom signs for businesses, homes, or events',
+   mat:'Birch 1/2"', fields:[
+     {key:'w',label:'Width (inches)',type:'number',default:24,min:6,max:60},
+     {key:'h',label:'Height (inches)',type:'number',default:12,min:4,max:36},
+     {key:'qty',label:'Quantity',type:'number',default:1,min:1,max:50},
+     {key:'mat',label:'Material',type:'select',options:['Birch 1/2"','Birch 3/4"','MDF 1/2"','Baltic Birch 3/4"'],default:'Birch 1/2"'}
+   ],
+   price: function(v){
+     var m=MATS[v.mat]; var sqin=v.w*v.h*v.qty;
+     var passes=Math.ceil(v.qty/m.stack); var path=2*(v.w+v.h)*1.2*passes;
+     var mins=path/90; return Object.assign(calcPrice(v.mat,sqin,mins),{mins:mins,sqin:sqin});
+   },
+   svg: function(v){return svgSign(v.w||24,v.h||12);}
+  },
+  {id:'shelf-wall', cat:'shelving', name:'Wall Shelf', desc:'Floating wall shelves - single or multi-tier',
+   mat:'Birch 3/4"', fields:[
+     {key:'w',label:'Width (inches)',type:'number',default:36,min:12,max:72},
+     {key:'d',label:'Depth (inches)',type:'number',default:10,min:6,max:20},
+     {key:'shelves',label:'Number of Shelves',type:'number',default:1,min:1,max:5},
+     {key:'mat',label:'Material',type:'select',options:['Birch 3/4"','Baltic Birch 3/4"'],default:'Birch 3/4"'}
+   ],
+   price: function(v){
+     var sqin=v.w*v.d*v.shelves + (v.d*3*2); // shelves + side brackets
+     var path=(2*(v.w+v.d)*1.2*v.shelves)+(v.d*3*2*2);
+     var mins=path/90; return Object.assign(calcPrice(v.mat,sqin,mins),{mins:mins,sqin:sqin});
+   },
+   svg: function(v){return svgShelf(v.w||36,v.d||10,v.shelves||1);}
+  },
+  {id:'shelf-garage', cat:'shelving', name:'Garage Shelving Unit', desc:'Heavy duty garage or workshop storage shelves',
+   mat:'Birch 3/4"', fields:[
+     {key:'w',label:'Width (inches)',type:'number',default:48,min:24,max:96},
+     {key:'d',label:'Depth (inches)',type:'number',default:16,min:10,max:24},
+     {key:'shelves',label:'Number of Shelves',type:'number',default:3,min:2,max:6},
+     {key:'mat',label:'Material',type:'select',options:['Birch 3/4"','Baltic Birch 3/4"'],default:'Birch 3/4"'}
+   ],
+   price: function(v){
+     var sqin=v.w*v.d*v.shelves + (v.d*4*2);
+     var path=(2*(v.w+v.d)*1.2*v.shelves)+(v.d*4*2*2);
+     var mins=path/90; return Object.assign(calcPrice(v.mat,sqin,mins),{mins:mins,sqin:sqin});
+   },
+   svg: function(v){return svgShelf(v.w||48,v.d||16,v.shelves||3);}
+  },
+  {id:'desk-float', cat:'furniture', name:'Floating Desk', desc:'Wall-mounted floating desk with clean lines',
+   mat:'Birch 3/4"', fields:[
+     {key:'w',label:'Width (inches)',type:'number',default:48,min:24,max:84},
+     {key:'d',label:'Depth (inches)',type:'number',default:20,min:12,max:30},
+     {key:'mat',label:'Material',type:'select',options:['Birch 3/4"','Baltic Birch 3/4"'],default:'Birch 3/4"'}
+   ],
+   price: function(v){
+     var sqin=v.w*v.d; var path=2*(v.w+v.d)*1.2;
+     var mins=path/90; return Object.assign(calcPrice(v.mat,sqin,mins),{mins:mins,sqin:sqin});
+   },
+   svg: function(v){return svgDesk(v.w||48,v.d||20);}
+  },
+  {id:'bench-mud', cat:'furniture', name:'Mudroom Bench', desc:'Entryway bench with storage compartment underneath',
+   mat:'Birch 3/4"', fields:[
+     {key:'w',label:'Width (inches)',type:'number',default:48,min:24,max:72},
+     {key:'h',label:'Height (inches)',type:'number',default:18,min:14,max:24},
+     {key:'mat',label:'Material',type:'select',options:['Birch 3/4"','Baltic Birch 3/4"'],default:'Birch 3/4"'}
+   ],
+   price: function(v){
+     var sqin=v.w*v.h*2 + v.w*(v.h-4) + (v.h*2*2);
+     var path=(2*(v.w+(v.h-4))*1.2)*3;
+     var mins=path/90; return Object.assign(calcPrice(v.mat,sqin,mins),{mins:mins,sqin:sqin});
+   },
+   svg: function(v){return svgBench(v.w||48,v.h||18);}
+  }
+];
+
+// ─── STATE ───────────────────────────────────────────────────────
+var state = {product:null, values:{}, calc:null};
+
+// ─── NAV ─────────────────────────────────────────────────────────
+function show(id) {
+  document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('on');});
+  document.getElementById(id).classList.add('on');
+}
+
+// ─── LIBRARY RENDER ──────────────────────────────────────────────
+function renderLibrary(cat) {
+  var grid = document.getElementById('libGrid');
+  var prods = cat==='all' ? LIBRARY : LIBRARY.filter(function(p){return p.cat===cat;});
+  grid.innerHTML = prods.map(function(p) {
+    var vals = {};
+    p.fields.forEach(function(f){vals[f.key]=f.default;});
+    var pc = p.price(vals);
+    var drawing = p.svg(vals);
+    return '<div class="prod-card" onclick="openProduct(''+p.id+'')">'+
+      '<div class="prod-drawing">'+drawing+'</div>'+
+      '<div class="prod-info">'+
+      '<div class="prod-cat">'+p.cat+'</div>'+
+      '<div class="prod-name">'+p.name+'</div>'+
+      '<div class="prod-mat">'+p.mat+'</div>'+
+      '<div class="prod-price">From $'+pc.price+'</div>'+
+      '<button class="prod-cta">Customize & Order</button>'+
+      '</div></div>';
+  }).join('');
+}
+
+document.getElementById('cats').addEventListener('click', function(e) {
+  if (e.target.classList.contains('cat-btn')) {
+    document.querySelectorAll('.cat-btn').forEach(function(b){b.classList.remove('active');});
+    e.target.classList.add('active');
+    renderLibrary(e.target.dataset.cat);
+  }
+});
+
+function openProduct(id) {
+  var prod = LIBRARY.find(function(p){return p.id===id;});
+  if (!prod) return;
+  state.product = prod;
+  state.values = {};
+  prod.fields.forEach(function(f){state.values[f.key]=f.default;});
+  document.getElementById('custTitle').textContent = prod.name;
+  renderCustForm();
+  updateCustPreview();
+  show('s-customize');
+}
+
+// ─── CUSTOMIZE FORM ──────────────────────────────────────────────
+function renderCustForm() {
+  var p = state.product;
+  var form = document.getElementById('custForm');
+  var fieldsHtml = p.fields.map(function(f) {
+    if (f.type==='select') {
+      var opts = f.options.map(function(o){
+        return '<option value="'+o+'"'+(o===f.default?' selected':'')+'>'+o+'</option>';
+      }).join('');
+      return '<div class="field"><label>'+f.label+'</label><select data-key="'+f.key+'" onchange="onFieldChange(this)">'+opts+'</select></div>';
+    }
+    return '<div class="field"><label>'+f.label+'</label><input type="number" data-key="'+f.key+'" value="'+f.default+'" min="'+(f.min||1)+'" max="'+(f.max||999)+'" onchange="onFieldChange(this)" oninput="onFieldChange(this)"/></div>';
+  }).join('');
+
+  form.innerHTML = fieldsHtml +
+    '<div class="price-preview"><div class="price-label">Estimated Price</div>'+
+    '<div class="price-amount" id="priceAmt">$0.00</div>'+
+    '<div class="price-detail" id="priceDetail"></div></div>'+
+    '<button class="btn-next" onclick="goConfirm()">Review Order</button>';
+
+  updatePricePreview();
+}
+
+function onFieldChange(el) {
+  var key = el.dataset.key;
+  state.values[key] = el.type==='number' ? parseFloat(el.value)||0 : el.value;
+  updateCustPreview();
+  updatePricePreview();
+}
+
+function updateCustPreview() {
+  var p = state.product;
+  document.getElementById('custSvg').innerHTML = p.svg(state.values);
+  var dims = [];
+  p.fields.forEach(function(f){
+    if(f.key!=='mat') dims.push(f.label+': '+state.values[f.key]);
+  });
+  document.getElementById('custDims').textContent = dims.join('  |  ');
+}
+
+function updatePricePreview() {
+  var p = state.product;
+  var pc = p.price(state.values);
+  state.calc = pc;
+  document.getElementById('priceAmt').textContent = '$'+pc.price;
+  document.getElementById('priceDetail').textContent = 'Cut time: '+fmtTime(pc.mins||0) + '  •  Material: $'+pc.mc + '  •  CNC: $'+pc.cc;
+}
+
+// ─── CONFIRM ─────────────────────────────────────────────────────
+function goConfirm() {
+  var p = state.product;
+  var pc = state.calc || p.price(state.values);
+  document.getElementById('confirmSvg').innerHTML = p.svg(state.values);
+  document.getElementById('confirmPrice').textContent = '$'+pc.price;
+  document.getElementById('confirmTime').textContent = fmtTime(pc.mins||0);
+  // Spec rows
+  var rows = '<div class="spec-row"><div class="spec-key">Product</div><div class="spec-val">'+p.name+'</div></div>';
+  p.fields.forEach(function(f){
+    rows+='<div class="spec-row"><div class="spec-key">'+f.label+'</div><div class="spec-val">'+state.values[f.key]+(f.type==='number'&&f.key!=='qty'?'"':'')+'</div></div>';
+  });
+  document.getElementById('confirmSpec').innerHTML = rows;
+  document.getElementById('successBox').classList.remove('show');
+  document.getElementById('cncBtn').disabled = false;
+  document.getElementById('cncBtn').textContent = 'Send to CNC Machine';
+  show('s-confirm');
+}
+
+document.getElementById('cncBtn').addEventListener('click', function() {
+  var id = 'SB-'+Math.floor(10000+Math.random()*90000);
+  document.getElementById('orderId').textContent = 'Order #'+id+' - Node 001 - Statesboro GA';
+  document.getElementById('successBox').classList.add('show');
+  document.getElementById('cncBtn').disabled = true;
+  document.getElementById('cncBtn').textContent = 'Order Placed';
+  fetch('/api/orders',{method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({product:state.product.name,values:state.values,price:state.calc.price,cutTime:fmtTime(state.calc.mins)})
+  }).catch(function(){});
+});
+
+// ─── AI CUSTOM ───────────────────────────────────────────────────
+var hist=[], busy=false;
+function addMsg(r,h){var c=document.getElementById('msgs');var d=document.createElement('div');d.className='msg'+(r==='u'?' u':'');d.innerHTML='<div class="av '+(r==='u'?'me':'ai')+'">'+(r==='u'?'You':'AI')+'</div><div class="bub '+(r==='u'?'me':'ai')+'">'+h+'</div>';c.appendChild(d);c.scrollTop=c.scrollHeight;}
+function typing(){var c=document.getElementById('msgs');var d=document.createElement('div');d.id='td';d.className='msg';d.innerHTML='<div class="av ai">AI</div><div class="bub ai"><em>Thinking...</em></div>';c.appendChild(d);c.scrollTop=c.scrollHeight;}
+function rmT(){var t=document.getElementById('td');if(t)t.remove();}
+function aiSend(){var inp=document.getElementById('inp');var txt=inp.value.trim();if(!txt||busy)return;inp.value='';busy=true;document.getElementById('sendBtn').disabled=true;addMsg('u',txt);hist.push({role:'user',content:txt});typing();fetch('/api/design',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({history:hist})}).then(function(r){return r.json();}).then(function(d){var full='';if(d.content)d.content.forEach(function(b){if(b.text)full+=b.text;});rmT();addMsg('ai',full.replace(/<DESIGN>[\s\S]*?<\/DESIGN>/g,'').trim());hist.push({role:'assistant',content:full});}).catch(function(e){rmT();addMsg('ai','Error: '+e.message);}).finally(function(){busy=false;document.getElementById('sendBtn').disabled=false;});}
+
+document.getElementById('sendBtn').addEventListener('click', aiSend);
+document.getElementById('inp').addEventListener('keydown', function(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();aiSend();}});
+document.getElementById('inp').addEventListener('input', function(){this.style.height='auto';this.style.height=Math.min(this.scrollHeight,100)+'px';});
+
+// ─── INIT ─────────────────────────────────────────────────────────
+document.getElementById('splashBtn').addEventListener('click', function(){show('s-library');});
+document.getElementById('s-splash').addEventListener('click', function(){show('s-library');});
+document.getElementById('customBtn').addEventListener('click', function(){hist=[];document.getElementById('msgs').innerHTML='<div class="msg"><div class="av ai">AI</div><div class="bub ai">Hey! Tell me what you want to build. I will ask a few questions to get the spec right, then give you a real price and cut time. What are you making?</div></div>';show('s-ai');});
+renderLibrary('all');
+</script></body></html>
