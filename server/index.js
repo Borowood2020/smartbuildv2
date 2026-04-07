@@ -6,11 +6,11 @@ app.use(cors()); app.use(express.json());
 app.use(express.static(path.join(__dirname, '../public')));
 const orders = [];
 const MATERIALS = {
-  'Birch 1/4"': { rate:0.0171,cnc:1.0,grade:'A/B Sanded',color:'#9E6028' },
-  'Birch 1/2"': { rate:0.0265,cnc:1.1,grade:'A/B Sanded',color:'#9E6028' },
-  'Birch 3/4"': { rate:0.0342,cnc:1.25,grade:'A/B Sanded',color:'#9E6028' },
-  'MDF 1/2"': { rate:0.0148,cnc:0.85,grade:'Smooth B/S',color:'#6A625A' },
-  'Baltic Birch 3/4"': { rate:0.0418,cnc:1.2,grade:'B/BB 13-ply',color:'#B8904A' }
+  'Birch 1/4"': { rate:0.0171,cnc:1.0,grade:'A/B Sanded',color:'#9E6028',stack:2 },
+  'Birch 1/2"': { rate:0.0265,cnc:1.1,grade:'A/B Sanded',color:'#9E6028',stack:1 },
+  'Birch 3/4"': { rate:0.0342,cnc:1.25,grade:'A/B Sanded',color:'#9E6028',stack:1 },
+  'MDF 1/2"': { rate:0.0148,cnc:0.85,grade:'Smooth B/S',color:'#6A625A',stack:1 },
+  'Baltic Birch 3/4"': { rate:0.0418,cnc:1.2,grade:'B/BB 13-ply',color:'#B8904A',stack:1 }
 };
 const CNC_RATE = 2;
 const MACHINE_IPM = 90;
@@ -28,38 +28,42 @@ function calcPrice(mat, sqin, mins) {
 const SYSTEM = `You are the SmartBuild AI for BoroWood CNC shop Statesboro GA. Design wood pieces for customers.
 
 MATERIALS (only these 5):
-- Birch 1/4" | $0.0171/sqin | cnc_mult 1.0 | A/B Sanded
-- Birch 1/2" | $0.0265/sqin | cnc_mult 1.1 | A/B Sanded
-- Birch 3/4" | $0.0342/sqin | cnc_mult 1.25 | A/B Sanded
-- MDF 1/2" | $0.0148/sqin | cnc_mult 0.85 | Smooth B/S
-- Baltic Birch 3/4" | $0.0418/sqin | cnc_mult 1.2 | B/BB 13-ply
+- Birch 1/4" | $0.0171/sqin | cnc_mult 1.0 | A/B Sanded | STACKABLE: cut 2 sheets at once
+- Birch 1/2" | $0.0265/sqin | cnc_mult 1.1 | A/B Sanded | no stacking
+- Birch 3/4" | $0.0342/sqin | cnc_mult 1.25 | A/B Sanded | no stacking
+- MDF 1/2" | $0.0148/sqin | cnc_mult 0.85 | Smooth B/S | no stacking
+- Baltic Birch 3/4" | $0.0418/sqin | cnc_mult 1.2 | B/BB 13-ply | no stacking
 
 CNC MACHINE: runs at 90 IPM (inches per minute).
-CNC RATE: $2/hour
+CNC RATE: $2/hour.
+
+STACKING RULE:
+- Birch 1/4" ONLY: stack 2 sheets at a time. So for N pieces, you only need ceil(N/2) passes.
+- All other materials: 1 sheet per pass, N pieces = N passes.
 
 CUT TIME FORMULA:
-- Estimate total cut path in inches (all perimeter cuts + internal cuts)
-- cut_minutes = total_cut_inches / 90
-- Round up to nearest 0.5 minute
-- cut_time = human readable (e.g. "8 min", "1.5 hours")
+1. Calculate passes = ceil(quantity / stack_factor) [1/4" birch: stack=2, others: stack=1]
+2. Estimate cut path per pass in inches (perimeter of one piece * 1.2 for tabs/entry)
+3. cut_minutes = (cut_path_per_pass * passes) / 90
+4. Round up to nearest 0.5 min
+5. cut_time = human readable (e.g. "12 min", "1.5 hours")
 
-For common shapes:
-- Rectangle WxH: total cut path approx 2*(W+H)*1.2
-- Circle diameter D: total cut path approx pi*D*1.2
-- For multiple pieces multiply accordingly
+Examples:
+- 50 circles 12" dia, Birch 1/4": passes=ceil(50/2)=25, cut_path_per_pass=pi*12*1.2=45.2", total_cut=25*45.2=1131", cut_minutes=1131/90=12.6 min -> "13 min"
+- 10 rectangles 24"x12", Birch 3/4": passes=10, cut_path_per_pass=2*(24+12)*1.2=86.4", total=864", cut_minutes=864/90=9.6 min -> "10 min"
 
 PRICING FORMULA:
-- material_cost = sqin * rate
+- material_cost = sqin * rate (total sqin for ALL pieces)
 - cnc_cost = (cut_minutes / 60) * 2 * cnc_mult
 - cost = material_cost + cnc_cost + 0.15
-- price = cost / 0.80 (20% margin)
-- Round price to nearest cent
+- price = cost / 0.80
+- Round to nearest cent
 
 RESPONSE FORMAT:
-One craftsman sentence describing the piece, then:
+One craftsman sentence, then:
 <DESIGN>{"type":"...","name":"...","width":"...","depth_height":"...","thickness":"...","sqin":0,"cut_minutes":0,"cut_time":"...","material":"...","grade":"...","material_reason":"...","build_notes":"...","material_cost":"0.00","cnc_cost":"0.00","margin":"0.00","price":"0.00"}</DESIGN>
 
-USE PROPER QUOTED JSON KEYS.`;
+ALWAYS use properly quoted JSON keys.`;
 
 app.post('/api/design', async (req, res) => {
   const k = process.env.ANTHROPIC_API_KEY;
@@ -96,7 +100,7 @@ app.patch('/api/orders/:id', (req, res) => {
   res.json(o);
 });
 app.get('/api/materials', (req, res) => res.json(MATERIALS));
-app.get('/api/health', (req, res) => res.json({ status: 'ok', node: 'NODE-001', location: 'Statesboro GA', machine_ipm: MACHINE_IPM, cnc_rate: CNC_RATE, uptime: process.uptime() }));
+app.get('/api/health', (req, res) => res.json({ status: 'ok', node: 'NODE-001', location: 'Statesboro GA', machine_ipm: MACHINE_IPM, cnc_rate: CNC_RATE, stacking: '1/4in birch=2 sheets', uptime: process.uptime() }));
 app.get('*', (req, res) => res.sendFile(path.join(__dirname, '../public/index.html')));
 
 const PORT = process.env.PORT || 3000;
