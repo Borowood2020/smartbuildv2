@@ -6,13 +6,13 @@ app.use(cors()); app.use(express.json());
 app.use(express.static(path.join(__dirname, '../public')));
 const orders = [];
 const MATERIALS = {
-  'Birch 1/4"': { rate:0.171,cnc:1.0,grade:'A/B Sanded',color:'#9E6028' },
-  'Birch 1/2"': { rate:0.265,cnc:1.1,grade:'A/B Sanded',color:'#9E6028' },
-  'Birch 3/4"': { rate:0.342,cnc:1.25,grade:'A/B Sanded',color:'#9E6028' },
-  'MDF 1/2"': { rate:0.148,cnc:0.85,grade:'Smooth B/S',color:'#6A625A' },
-  'Baltic Birch 3/4"': { rate:0.418,cnc:1.2,grade:'B/BB 13-ply',color:'#B8904A' }
+  'Birch 1/4"': { rate:0.0171,cnc:1.0,grade:'A/B Sanded',color:'#9E6028' },
+  'Birch 1/2"': { rate:0.0265,cnc:1.1,grade:'A/B Sanded',color:'#9E6028' },
+  'Birch 3/4"': { rate:0.0342,cnc:1.25,grade:'A/B Sanded',color:'#9E6028' },
+  'MDF 1/2"': { rate:0.0148,cnc:0.85,grade:'Smooth B/S',color:'#6A625A' },
+  'Baltic Birch 3/4"': { rate:0.0418,cnc:1.2,grade:'B/BB 13-ply',color:'#B8904A' }
 };
-const CNC_RATE = 20;
+const CNC_RATE = 2;
 const MACHINE_IPM = 90;
 
 function calcPrice(mat, sqin, mins) {
@@ -20,7 +20,7 @@ function calcPrice(mat, sqin, mins) {
   if (!m) return null;
   const mc = sqin * m.rate;
   const cc = (mins / 60) * CNC_RATE * m.cnc;
-  const cost = mc + cc + 1.5;
+  const cost = mc + cc + 0.15;
   const price = cost / 0.8;
   return { material_cost: mc.toFixed(2), cnc_cost: cc.toFixed(2), margin: (price - cost).toFixed(2), price: price.toFixed(2) };
 }
@@ -28,13 +28,14 @@ function calcPrice(mat, sqin, mins) {
 const SYSTEM = `You are the SmartBuild AI for BoroWood CNC shop Statesboro GA. Design wood pieces for customers.
 
 MATERIALS (only these 5):
-- Birch 1/4" | $0.171/sqin | cnc_mult 1.0 | A/B Sanded
-- Birch 1/2" | $0.265/sqin | cnc_mult 1.1 | A/B Sanded
-- Birch 3/4" | $0.342/sqin | cnc_mult 1.25 | A/B Sanded
-- MDF 1/2" | $0.148/sqin | cnc_mult 0.85 | Smooth B/S
-- Baltic Birch 3/4" | $0.418/sqin | cnc_mult 1.2 | B/BB 13-ply
+- Birch 1/4" | $0.0171/sqin | cnc_mult 1.0 | A/B Sanded
+- Birch 1/2" | $0.0265/sqin | cnc_mult 1.1 | A/B Sanded
+- Birch 3/4" | $0.0342/sqin | cnc_mult 1.25 | A/B Sanded
+- MDF 1/2" | $0.0148/sqin | cnc_mult 0.85 | Smooth B/S
+- Baltic Birch 3/4" | $0.0418/sqin | cnc_mult 1.2 | B/BB 13-ply
 
 CNC MACHINE: runs at 90 IPM (inches per minute).
+CNC RATE: $2/hour
 
 CUT TIME FORMULA:
 - Estimate total cut path in inches (all perimeter cuts + internal cuts)
@@ -43,14 +44,14 @@ CUT TIME FORMULA:
 - cut_time = human readable (e.g. "8 min", "1.5 hours")
 
 For common shapes:
-- Rectangle WxH: perimeter = 2*(W+H). Total cut path approx 2*(W+H)*1.2 for tabs/passes
-- Circle diameter D: perimeter = pi*D. Total cut path approx pi*D*1.2
+- Rectangle WxH: total cut path approx 2*(W+H)*1.2
+- Circle diameter D: total cut path approx pi*D*1.2
 - For multiple pieces multiply accordingly
 
 PRICING FORMULA:
 - material_cost = sqin * rate
-- cnc_cost = (cut_minutes / 60) * 20 * cnc_mult
-- cost = material_cost + cnc_cost + 1.50
+- cnc_cost = (cut_minutes / 60) * 2 * cnc_mult
+- cost = material_cost + cnc_cost + 0.15
 - price = cost / 0.80 (20% margin)
 - Round price to nearest cent
 
@@ -58,7 +59,7 @@ RESPONSE FORMAT:
 One craftsman sentence describing the piece, then:
 <DESIGN>{"type":"...","name":"...","width":"...","depth_height":"...","thickness":"...","sqin":0,"cut_minutes":0,"cut_time":"...","material":"...","grade":"...","material_reason":"...","build_notes":"...","material_cost":"0.00","cnc_cost":"0.00","margin":"0.00","price":"0.00"}</DESIGN>
 
-USE PROPER QUOTED JSON KEYS. Do not include alternative_materials array.`;
+USE PROPER QUOTED JSON KEYS.`;
 
 app.post('/api/design', async (req, res) => {
   const k = process.env.ANTHROPIC_API_KEY;
@@ -95,7 +96,7 @@ app.patch('/api/orders/:id', (req, res) => {
   res.json(o);
 });
 app.get('/api/materials', (req, res) => res.json(MATERIALS));
-app.get('/api/health', (req, res) => res.json({ status: 'ok', node: 'NODE-001', location: 'Statesboro GA', machine_ipm: MACHINE_IPM, uptime: process.uptime() }));
+app.get('/api/health', (req, res) => res.json({ status: 'ok', node: 'NODE-001', location: 'Statesboro GA', machine_ipm: MACHINE_IPM, cnc_rate: CNC_RATE, uptime: process.uptime() }));
 app.get('*', (req, res) => res.sendFile(path.join(__dirname, '../public/index.html')));
 
 const PORT = process.env.PORT || 3000;
